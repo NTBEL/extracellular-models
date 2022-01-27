@@ -7,13 +7,13 @@ This package contains a set of reaction-diffusion models to simulate the dynamic
 ### Table of Contents
 
   1. [Install](#install)
-    1. [Dependencies](#dependencies)
-    2. [pip install](#pip-install)
+       1. [Dependencies](#dependencies)
+       2. [pip install](#pip-install)
   2. [The Models](#the-models)     
   3. [Usage details](#usage-details)
-    1. [Importing](#importing)
-    2. [Simulating](#simulating)
-    3. [Chaning extracellular parameters](#changing-extracellular-parameters)       
+       1. [Importing](#importing)
+       2. [Simulating](#simulating)
+       3. [Chaning extracellular parameters](#changing-extracellular-parameters)       
   4. [License](#license)
   5. [Change Log](#change-log)
   6. [Citing](#citing)

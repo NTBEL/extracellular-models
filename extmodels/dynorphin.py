@@ -32,6 +32,9 @@ class Model(ModelBase):
         Species:
             dynorphin -> rxd.Species: Neuropeptide dynorphin A that is
                 photoreleased in the brain extracellular space.
+            sensor -> rxd.Species: The receptor-based sensor for dynophin.
+            sensor_complex -> rxd.Species: The complex between dynorpin and the
+                    sensor.
         Parameters:
             Kd -> rxd.Parameter: The dissociation constant for dynorphin-senson
                 interaction.

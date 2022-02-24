@@ -40,10 +40,12 @@ pip install -e git+https://github.com/NTBEL/extracellular-models#egg=extmodels
 ----
 
 ## The Models
-extracellular-models currently contains 3 models:
+extracellular-models currently contains 4 models:
   * `extmodels.calcein` - Model of calcein diffusion in the brain extracellular space after photorelease from gold-coated nanovesicles.
-  * `extmodels.somatastatin` - Model of somatastatin diffusion and loss (degradation, clearance, etc.) in the brain extracellular space after photorelease from gold-coated nanovesicles.
-  * `extmodels.dynophin` - Model of dynorphin A diffusion and binding to the kLight receptor-based fluorescent sensor in the brain extracellular space after photorelease from gold-coated nanovesicles.     
+  * `extmodels.somatostatin` - Model of somatostatin diffusion and loss (degradation, clearance, etc.) in the brain extracellular space after photorelease from gold-coated nanovesicles.
+  * `extmodels.dynophin` - Model of dynorphin A diffusion and binding to the kLight receptor-based fluorescent sensor in the brain extracellular space after photorelease from gold-coated nanovesicles.    
+  * `extmodels.core_satellite` - Model of somatostatin (SST) release, diffusion, and loss with core-satellite based sensing clusters. The sensing clusters are simplified models of the core-satellite CNiFERs clusters setup used in [Xiong et al. 2021 bioRxiv](https://doi.org/10.1101/2021.09.10.459853).  
+  * `extmodels.calcein_pointsource` - Model of calcein diffusion in the brain extracellular space that approximates release from an instantaneous point source.
 
 ----
 

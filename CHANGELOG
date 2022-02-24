@@ -4,12 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2022-01-28
+
+### Added
+- additional species `sensor` and `sensor_complex` to the docstring of the dynorphin model.
+- `core_satellite` model for SST release and CNiFERs-like detection.
+- new list item in the README under The Models for the new `core_satellite` model.
+- `calcein_pointsource` model for calcein that approximates release and diffusion calcein from an instantaneous point source.
+- new list item in the README under The Models for the new `calcein_pointsource` model.
+
+
 ## [0.1.0] - 2022-01-26
 
 ### Added
 - ModelBase class.
 - initial versions of calcein, somatostatin, and dynorphin models.
 - CHANGELOG file
-- setup.py file. 
+- setup.py file.
 - Sections in the README: Install, The Models, Usage details, Contact, License, Change Log, and Citing.
 - Table of Contents in the README.

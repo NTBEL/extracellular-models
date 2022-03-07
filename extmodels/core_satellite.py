@@ -308,6 +308,26 @@ class Model(ModelBase):
         )
 
     @property
+    def radius_core(self):
+        """The radius of the core sensor implant."""
+        return self._radius_core
+
+    @radius_core.setter
+    def radius_core(self, new_radius):
+        self._radius_core = new_radius
+        self.sensor.initial = (
+            lambda nd: self._sensor_0
+            if (nd.x3d ** 2 + nd.y3d ** 2 + nd.z3d ** 2 < self._radius_core ** 2)
+            or (
+                (nd.x3d - self._distance_core_satellite) ** 2
+                + nd.y3d ** 2
+                + nd.z3d ** 2
+                < self._radius_satellite ** 2
+            )
+            else 0
+        )
+
+    @property
     def distance_core_satellite(self):
         """The radius of the satellite sensor implant."""
         return self._distance_core_satellite

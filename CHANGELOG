@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new list item in the README under The Models for the new `core_satellite` model.
 - `calcein_pointsource` model for calcein that approximates release and diffusion calcein from an instantaneous point source.
 - new list item in the README under The Models for the new `calcein_pointsource` model.
+- New (settable) property `radius_core` in the `core_satellite` model. 
 
 ### Changed
 - In the `core_satellite` model the default radius of the core implant was change to equal radius of the tornado stimulation zone.

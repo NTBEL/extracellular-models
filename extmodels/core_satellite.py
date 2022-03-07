@@ -153,12 +153,12 @@ class Model(ModelBase):
         # a uniform concentration throught the core and satellite implants.
         sensor_0 = 1 * nM  # sensor concentration inside the implants.
         self._sensor_0 = sensor_0
-        radius_core = 15  # radius of the core sensor implant in microns.
+        radius_core = r_stim  # radius of the core sensor implant in microns.
         self._radius_core = radius_core
-        radius_satellite = 15  # radius of the satellite sensor implant in microns.
+        radius_satellite = 15 * um  # radius of the satellite sensor implant in microns.
         self._radius_satellite = radius_satellite
         distance_core_satellite = (
-            100  # distance between the centers of the core and satellite implants.
+            100 * um  # distance between the centers of the core and satellite implants.
         )
         self._distance_core_satellite = distance_core_satellite
         self.sensor = rxd.Species(

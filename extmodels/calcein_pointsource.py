@@ -4,6 +4,7 @@
 from neuron import h, rxd
 from neuron.units import nM, uM, cm, s, M, nm, um
 import numpy as np
+
 # Avogadro's Number from scipy
 from scipy.constants import N_A
 from .basemodel import ModelBase
@@ -38,14 +39,19 @@ class Model(ModelBase):
         volume_fraction: float = 0.2,
         tortuosity: float = 1.7,
         dx: float = 5,
-        xlo: float = -200.0,
-        xhi: float = 200.0,
-        ylo: float = -200.0,
-        yhi: float = 200.0,
-        zlo: float = -200.0,
-        zhi: float = 200.0,
+        xlo: float = -202.5,
+        xhi: float = 202.5,
+        ylo: float = -202.5,
+        yhi: float = 202.5,
+        zlo: float = -202.5,
+        zhi: float = 202.5,
     ):
         """Defines and constructs all the model components.
+
+        Note: The simulation box edges should be defined such that there
+        is an odd number of voxels along a given direction so that the
+        central-most voxel will be centered at the origin (0,0,0) to get
+        the expected point source initialization of calcien.
 
         Args:
             volume_fraction: The volume fraction of extracellular space
@@ -55,17 +61,17 @@ class Model(ModelBase):
             dx: The discrettization size for volume voxels in the extracellular
                 space in microns. DEFAUT: 5
             xlo: The position of the lower edge of the extracellular simulation
-                domain along the x-direction in microns. DEFAULT: -200.
+                domain along the x-direction in microns. DEFAULT: -202.5.
             xhi: The position of the upper edge of the extracellular simulation
-                domain along the x-direction in microns. DEFAULT: 200.
+                domain along the x-direction in microns. DEFAULT: 202.5.
             ylo: The position of the lower edge of the extracellular simulation
-                domain along the y-direction in microns. DEFAULT: -200.
+                domain along the y-direction in microns. DEFAULT: -202.5.
             yhi: The position of the upper edge of the extracellular simulation
-                domain along the y-direction in microns. DEFAULT: 200.
+                domain along the y-direction in microns. DEFAULT: 202.5.
             zlo: The position of the lower edge of the extracellular simulation
-                domain along the z-direction in microns. DEFAULT: -200.
+                domain along the z-direction in microns. DEFAULT: -202.5.
             zhi: The position of the upper edge of the extracellular simulation
-                domain along the z-direction in microns. DEFAULT: 200.
+                domain along the z-direction in microns. DEFAULT: 202.5.
         """
         # Where? -- specify the regions
         # For extracellular reaction-diffusion we just have one
@@ -87,15 +93,17 @@ class Model(ModelBase):
         d_calcein = 44e-7 * cm ** 2 / s  # diffusion coefficient
         # Approximate an instantaneous point source.
         Qcal = 1e8  # Number of calcein molecules released
-        voxel_volume = dx**3 # volume of one voxel
+        voxel_volume = dx ** 3  # volume of one voxel
         cal_0 = ((Qcal / N_A) / voxel_volume) / volume_fraction * 1e15 * M
+        dx_h = dx / 2
         self.calcein = rxd.Species(
             self.ecs,
             name="calcein",
             d=d_calcein,
             charge=0,
             initial=lambda nd: cal_0
-            if (nd.x3d ** 2 + nd.y3d ** 2 + nd.z3d**2 < dx ** 2) else 0,
+            if (nd.x3d ** 2 + nd.y3d ** 2 + nd.z3d ** 2 < dx_h ** 2)
+            else 0,
             ecs_boundary_conditions=0.0,
         )
         # What? -- specify all the reactions
@@ -105,8 +113,13 @@ class Model(ModelBase):
         self._times = None  # We'll store the time points in our simulation trajectory.
         self._observables = None  # We'll assign our observables to this variable.
 
-    def simulate(self, time_step: float, n_steps: int,
-                output_frequency: int = 1, nthread: int = 1,):
+    def simulate(
+        self,
+        time_step: float,
+        n_steps: int,
+        output_frequency: int = 1,
+        nthread: int = 1,
+    ):
         """Run the simulation and set the desired trajectory ouptuts.
 
         Args:

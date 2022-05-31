@@ -151,7 +151,7 @@ class Model(ModelBase):
                 cal_zproject_mean.append(self.calcein[self.ecs].states3d.mean(2))
             h.fadvance()
         self._times = np.array(times)
-        self._observables = {"zproject_mean_calcium": cal_zproject_mean}
+        self._observables = {"zproject_mean_calcein": cal_zproject_mean}
         return
 
 

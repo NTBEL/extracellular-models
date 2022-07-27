@@ -4,6 +4,7 @@
 from neuron import h, rxd
 from neuron.units import nM, uM, cm, s, M, nm, um
 import numpy as np
+
 # Avogadro's Number from scipy
 from scipy.constants import N_A
 from .basemodel import ModelBase
@@ -84,20 +85,20 @@ class Model(ModelBase):
         # Define the voxel mesh here so we set the tortuosity value to be
         # different in different spatial regions of the simulation box.
         n_pixels = (np.array([xhi - xlo, yhi - ylo, zhi - zlo]) / dx).astype(int)
-        xedges = np.linspace(xlo,xhi, n_pixels[0]+1, endpoint=True)
-        xpos = xedges[0:-1] + (xedges[1:] - xedges[:-1])/2
-        yedges = np.linspace(ylo,yhi, n_pixels[1]+1, endpoint=True)
-        ypos = yedges[0:-1] + (yedges[1:] - yedges[:-1])/2
-        zedges = np.linspace(zlo,zhi, n_pixels[2]+1, endpoint=True)
-        zpos = zedges[0:-1] + (zedges[1:] - zedges[:-1])/2
+        xedges = np.linspace(xlo, xhi, n_pixels[0] + 1, endpoint=True)
+        xpos = xedges[0:-1] + (xedges[1:] - xedges[:-1]) / 2
+        yedges = np.linspace(ylo, yhi, n_pixels[1] + 1, endpoint=True)
+        ypos = yedges[0:-1] + (yedges[1:] - yedges[:-1]) / 2
+        zedges = np.linspace(zlo, zhi, n_pixels[2] + 1, endpoint=True)
+        zpos = zedges[0:-1] + (zedges[1:] - zedges[:-1]) / 2
         # Generate a meshgrid for the x and y positions of pixels in micron
-        xv, yv, zv = np.meshgrid(xpos, ypos, zpos, indexing='ij')
+        xv, yv, zv = np.meshgrid(xpos, ypos, zpos, indexing="ij")
         self._xmesh = xv
         dx_h = dx / 2
         self._pos_xmask = xv > dx_h
         self._neg_xmask = xv < -dx_h
         tort = np.zeros_like(xv)
-        tort[:,:,:] = tortuosity_neg
+        tort[:, :, :] = tortuosity_neg
         tort[self._pos_xmask] = tortuosity_pos
         # Where? -- specify the regions
         # For extracellular reaction-diffusion we just have one
@@ -119,7 +120,7 @@ class Model(ModelBase):
         # Free diffusion from integrative optical imaging (IOI) is 44e-7 cm^2/s.
         d_calcein = 44e-7 * cm ** 2 / s  # diffusion coefficient
         # Approximate an instantaneous point source.
-        voxel_volume = dx**3 # volume of one voxel
+        voxel_volume = dx ** 3  # volume of one voxel
         cal_0 = ((Qcal / N_A) / voxel_volume) / volume_fraction * 1e15 * M
         self._voxel_volume = voxel_volume
         self.calcein = rxd.Species(
@@ -128,7 +129,8 @@ class Model(ModelBase):
             d=d_calcein,
             charge=0,
             initial=lambda nd: cal_0
-            if (nd.x3d ** 2 + nd.y3d ** 2 + nd.z3d**2 < dx_h ** 2) else 0,
+            if (nd.x3d ** 2 + nd.y3d ** 2 + nd.z3d ** 2 < dx_h ** 2)
+            else 0,
             ecs_boundary_conditions=0.0,
         )
         # What? -- specify all the reactions
@@ -138,8 +140,13 @@ class Model(ModelBase):
         self._times = None  # We'll store the time points in our simulation trajectory.
         self._observables = None  # We'll assign our observables to this variable.
 
-    def simulate(self, time_step: float, n_steps: int,
-                output_frequency: int = 1, nthread: int = 1,):
+    def simulate(
+        self,
+        time_step: float,
+        n_steps: int,
+        output_frequency: int = 1,
+        nthread: int = 1,
+    ):
         """Run the simulation and set the desired trajectory ouptuts.
 
         Args:
@@ -162,11 +169,14 @@ class Model(ModelBase):
         # define any observables that you want to store
         times = list()
         cal_zproject_mean = list()
+        cal_zproject_sum = list()
         # Number of calcein molecules that diffuse in negative x-direction.
         molec_neg = list()
         # Number of calcein molecules that diffuse in positive x-direction.
         molec_pos = list()
-        microM_to_molec = self._volume_fraction * 1e-6 * self._voxel_volume * 1e-15 * N_A
+        microM_to_molec = (
+            self._volume_fraction * 1e-6 * self._voxel_volume * 1e-15 * N_A
+        )
         # Run each step.
         for f in range(n_steps + 1):
             if (f == 0) or ((f % output_frequency) == 0):
@@ -174,15 +184,23 @@ class Model(ModelBase):
                 times.append(f * time_step)
                 # Get the mean value z-projection of the Calcein concentration.
                 cal_zproject_mean.append(self.calcein[self.ecs].states3d.mean(2))
-                num_neg = np.sum(self.calcein[self.ecs].states3d[self._neg_xmask] * microM_to_molec)
+                cal_zproject_sum.append(self.calcein[self.ecs].states3d.sum(2))
+                num_neg = np.sum(
+                    self.calcein[self.ecs].states3d[self._neg_xmask] * microM_to_molec
+                )
                 molec_neg.append(num_neg)
-                num_pos = np.sum(self.calcein[self.ecs].states3d[self._pos_xmask] * microM_to_molec)
+                num_pos = np.sum(
+                    self.calcein[self.ecs].states3d[self._pos_xmask] * microM_to_molec
+                )
                 molec_pos.append(num_pos)
             h.fadvance()
         self._times = np.array(times)
-        self._observables = {"zproject_mean_calcein": cal_zproject_mean,
-                             "num_neg": np.array(molec_neg),
-                             "num_pos": np.array(molec_pos)}
+        self._observables = {
+            "zproject_mean_calcein": cal_zproject_mean,
+            "zproject_sum_calcein": cal_zproject_sum,
+            "num_neg": np.array(molec_neg),
+            "num_pos": np.array(molec_pos),
+        }
         return
 
 

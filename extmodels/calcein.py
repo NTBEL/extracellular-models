@@ -130,6 +130,7 @@ class Model(ModelBase):
         # define any observables that you want to store
         times = list()
         cal_zproject_mean = list()
+        cal_zproject_sum = list()
         # Run each step.
         for f in range(n_steps + 1):
             if (f == 0) or ((f % output_frequency) == 0):
@@ -137,9 +138,14 @@ class Model(ModelBase):
                 times.append(f * time_step)
                 # Get the mean value z-projection of the Calcein concentration.
                 cal_zproject_mean.append(self.calcein[self.ecs].states3d.mean(2))
+                # Get the sum value z-projection of the Calcein concentration.
+                cal_zproject_sum.append(self.calcein[self.ecs].states3d.sum(2))
             h.fadvance()
         self._times = np.array(times)
-        self._observables = {"zproject_mean_calcium": cal_zproject_mean}
+        self._observables = {
+            "zproject_mean_calcein": cal_zproject_mean,
+            "zproject_sum_calcein": cal_zproject_sum,
+        }
         return
 
 

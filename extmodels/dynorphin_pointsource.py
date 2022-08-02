@@ -106,10 +106,19 @@ class Model(ModelBase):
         )
         # Who? -- define all the species
         # Dynorphin (i.e., Dynorphin A(1-8))
-        # The effective diffusion coefficeint for dynorphin is unknown, so we
-        # we will assume something close to other similar peptides.
+        # The effective diffusion coefficeint for dynorphin A(1-8) is still in
+        # in question. However, the effective diffusion coefficient for
+        # fluorescently labelled SST-14 in acute brain slices from integrative
+        # optical imaging (IOI) is 8.9+-1.3 x10^-7 cm^2/s. Xiong et al. 2021
+        # bioRxiv https://doi.org/10.1101/2021.09.10.459853
+        # We'll use a weight adjusted value for dynorphin A(1-8) assuming the
+        # hydrodynamic radius scales with molecular weight:
+        #     molecular weight sst-14: 1.64 kDa
+        #     molecular weight dynorphin A(1-8): 0.98 kDa
+        #     weight ratio (sst/dynorphin): 1.67
+        #     adjusted value: 8.9 x 1.67 = 14.9  (x10^-7 cm^2/s)
         d_dyn = (
-            10.0e-7 * cm ** 2 / s
+            14.9e-7 * cm ** 2 / s
         )  # effective diffusion coefficient (factoring in tortuosity)
 
         # Estimated release is 1.2x10^8 molecs for SST:
@@ -231,6 +240,17 @@ class Model(ModelBase):
     def sensor_t_off(self):
         """Characteristic time for dynorphin dissociating from the kLight sensor."""
         return 1 / self.koff.value
+
+    @property
+    def sensor_kd(self):
+        """The dissociation constant for sensor binding."""
+        return self.Kd.value
+
+    @sensor_kd.setter
+    def sensor_kd(self, new_kd):
+        self.Kd.value = new_kd
+        self.koff.value = new_kd * self.kon.value
+        return
 
 
 model = Model()

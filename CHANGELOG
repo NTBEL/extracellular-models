@@ -13,8 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `calcein_pointsource` model for calcein that approximates release and diffusion from an instantaneous point source.
 - new list item in the README under The Models for the new `calcein_pointsource` model.
 - New (settable) property `radius_core` in the `core_satellite` model. 
-- `calcein_pointsource_asymm` model for asymmetric calcein diffusion from an instantaneous point source.
+- `calcein_pointsource_asymm` model for asymmetric calcein diffusion from an instantaneous point source. Note: Initially this model was named `calcein_pointsource_anisotort`.
 - `dynorphin_pointsource` model for dynorphin A that approximates release and diffusion from an instantaneous point source.
+- `examples` directory with some example application scripts using the defined models.
 
 ### Changed
 - In the `core_satellite` model the default radius of the core implant was change to equal radius of the tornado stimulation zone.

@@ -14,15 +14,13 @@ class Model(ModelBase):
     """A model of dynorphin A release, diffusion, and fluorescent sensor-based detection in the brain extracellular space.
 
     This model simulates the photorelease of the neuropeptide dynorphin A from
-    gold coated nanovesicles, its subsequent diffusion in the brain
+    a point source, its subsequent diffusion in the brain
     extracellular space, and its interaction with the fluorescent receptor-based
-    sensor kLight. An initial cylindrical bolus of dynorphin A is placed in
-    the center of the extracellular domain to approximate the condition after
-    photorelease from gold coated nanovesicles with release stimulated by a
-    tornado scan of radius 30 micron with a multi-photon microscope. Dynorphin A
-    can then diffuse away from the release site and can reversibly bind to the
-    sensor protein which is assumed to have a uniform concentration in the
-    brain extracellular space.
+    sensor kLight. An initial bolus of Dynorphin A the size of single simulation
+    voxel is placed in the center of the extracellular domain to approximate an
+    instantaneous point source. Dynorphin A can then diffuse away from the release
+    site and can reversibly bind to the sensor protein which is assumed to have a
+    uniform concentration in the brain extracellular space.
 
     Model components (accessible as model attributes):
 

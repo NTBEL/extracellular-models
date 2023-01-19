@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="extmodels",
-    version="0.1.0",
+    version="0.2.0",
     python_requires='>=3.9',
     install_requires=['numpy', 'scipy', 'matplotlib', 'neuron'],
     author="Blake A. Wilson",

@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.2.0] - 2022-01-28
+## [0.2.0] - 2023-01-19
 
 ### Added
 - additional species `sensor` and `sensor_complex` to the docstring of the dynorphin model.
 - `core_satellite` model for SST release and CNiFERs-like detection.
 - new list item in the README under The Models for the new `core_satellite` model.
-- `calcein_pointsource` model for calcein that approximates release and diffusion calcein from an instantaneous point source.
+- `calcein_pointsource` model for calcein that approximates release and diffusion from an instantaneous point source.
 - new list item in the README under The Models for the new `calcein_pointsource` model.
 - New (settable) property `radius_core` in the `core_satellite` model. 
+- `calcein_pointsource_asymm` model for asymmetric calcein diffusion from an instantaneous point source.
+- `dynorphin_pointsource` model for dynorphin A that approximates release and diffusion from an instantaneous point source.
 
 ### Changed
 - In the `core_satellite` model the default radius of the core implant was change to equal radius of the tornado stimulation zone.

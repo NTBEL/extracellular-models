@@ -46,6 +46,8 @@ extracellular-models currently contains 4 models:
   * `extmodels.dynophin` - Model of dynorphin A diffusion and binding to the kLight receptor-based fluorescent sensor in the brain extracellular space after photorelease from gold-coated nanovesicles.    
   * `extmodels.core_satellite` - Model of somatostatin (SST) release, diffusion, and loss with core-satellite based sensing clusters. The sensing clusters are simplified models of the core-satellite CNiFERs clusters setup used in [Xiong et al. 2021 bioRxiv](https://doi.org/10.1101/2021.09.10.459853).  
   * `extmodels.calcein_pointsource` - Model of calcein diffusion in the brain extracellular space that approximates release from an instantaneous point source.
+  * `extmodels.dynorphin_pointsource` - Model of dynorphin A diffusion and binding to the kLight receptor-based fluorescent sensor in the brain extracellular space after photorelease from a point-source.
+  * `extmodels.calcein_pointsource_asymm` -  Model of asymmetric calcein diffusion in the brain extracellular space after release from an approximate instantaneous point source. The two-sides of the simulation domain along the x-axis have different tortuosities so calcein diffuses asymmetrically.
 
 ----
 

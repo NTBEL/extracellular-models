@@ -13,7 +13,8 @@ This package contains a set of reaction-diffusion models to simulate the dynamic
   3. [Usage details](#usage-details)
        1. [Importing](#importing)
        2. [Simulating](#simulating)
-       3. [Chaning extracellular parameters](#changing-extracellular-parameters)       
+       3. [Chaning extracellular parameters](#changing-extracellular-parameters)
+       4. [Examples](#examples)       
   4. [License](#license)
   5. [Change Log](#change-log)
   6. [Citing](#citing)
@@ -85,6 +86,9 @@ from extmodels.calcein import Model
 # 1.7 used for extmodels.calcein.model.
 model = Model(tortuosity=2.0)
 ```
+
+### Examples
+The [examples](./examples/) folder contains some example application scripts using the models and saving outputs. Note that most of these require the `tifffile` library to save 2d z-projections as `.tiff` image trajectory files.
 
 ----
 
